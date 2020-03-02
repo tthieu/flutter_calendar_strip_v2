@@ -20,7 +20,7 @@
 ```text
 dependencies:
           ...
-          calendar_strip: ^1.0.6
+          calendar_strip: ^1.0.7
 ```
 
 ## Usage Example
@@ -49,13 +49,17 @@ Container(
 ```dart
 
   dateTileBuilder(date, selectedDate, rowIndex, dayName, isDateMarked, isDateOutOfRange) {
+    var now = DateTime.now();
+    bool isToday = date.day == now.day && date.month == now.month && date.year == now.year;
     bool isSelectedDate = date.compareTo(selectedDate) == 0;
-    Color fontColor = isDateOutOfRange ? Colors.black26 : Colors.black87;
+    Color fontColor = isDateOutOfRange ? Colors.black26 :
+                              (isToday ? Colors.blue : Colors.black87);
     TextStyle normalStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
     TextStyle selectedStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Colors.black87);
     TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
+    TextStyle dayNameSelectedStyle = TextStyle(fontSize: 14.5, color: Colors.black87);
     List<Widget> _children = [
-      Text(dayName, style: dayNameStyle),
+      Text(dayName, !isSelectedDate ? dayNameStyle : dayNameSelectedStyle),
       Text(date.day.toString(), style: !isSelectedDate ? normalStyle : selectedStyle),
     ];
 
@@ -176,13 +180,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   dateTileBuilder(date, selectedDate, rowIndex, dayName, isDateMarked, isDateOutOfRange) {
+    var now = DateTime.now();
+    bool isToday = date.day == now.day && date.month == now.month && date.year == now.year;
     bool isSelectedDate = date.compareTo(selectedDate) == 0;
-    Color fontColor = isDateOutOfRange ? Colors.black26 : Colors.black87;
+    Color fontColor = isDateOutOfRange ? Colors.black26 :
+                              (isToday ? Colors.blue : Colors.black87);
     TextStyle normalStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
     TextStyle selectedStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Colors.black87);
     TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
+    TextStyle dayNameSelectedStyle = TextStyle(fontSize: 14.5, color: Colors.black87);
     List<Widget> _children = [
-      Text(dayName, style: dayNameStyle),
+      Text(dayName, style: !isSelectedDate ? dayNameStyle : dayNameSelectedStyle),
       Text(date.day.toString(), style: !isSelectedDate ? normalStyle : selectedStyle),
     ];
 
