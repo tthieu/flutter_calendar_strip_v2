@@ -18,6 +18,7 @@ class CalendarStrip extends StatefulWidget {
   final List<DateTime> markedDates;
   final bool addSwipeGesture;
   final bool weekStartsOnSunday;
+  final Function todayTextWidget;
 
   CalendarStrip({
     this.addSwipeGesture = false,
@@ -32,6 +33,7 @@ class CalendarStrip extends StatefulWidget {
     this.startDate,
     this.endDate,
     this.markedDates,
+    this.todayTextWidget,
   });
 
   State<CalendarStrip> createState() =>
@@ -43,6 +45,7 @@ class CalendarStripState extends State<CalendarStrip>
   DateTime currentDate = DateTime.now();
   DateTime selectedDate;
   String monthLabel;
+  String todayLabel;
   bool inBetweenMonths = false;
   DateTime rowStartingDate;
   double opacity = 0.0;
@@ -51,6 +54,8 @@ class CalendarStripState extends State<CalendarStrip>
       fontSize: 17, fontWeight: FontWeight.w600, color: Colors.black87);
   TextStyle selectedDateStyle =
       TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Colors.white);
+  TextStyle todayLabelStyle = TextStyle(
+      fontSize: 17, fontWeight: FontWeight.w600, color: Colors.black87);
   bool isOnEndingWeek = false, isOnStartingWeek = false;
   bool doesDateRangeExists = false;
   DateTime today;
@@ -147,6 +152,11 @@ class CalendarStripState extends State<CalendarStrip>
       label =
           "${getMonthName(startingDayObj)} $startingDayYear / ${getMonthName(endingDayObj)} ${endingDayObj.year}";
     }
+    return label;
+  }
+
+  String getTodayLabel() {
+    String label = "Today, ${getMonthName(today)} ${today.day}, ${today.year}";
     return label;
   }
 
@@ -253,6 +263,13 @@ class CalendarStripState extends State<CalendarStrip>
         padding: EdgeInsets.only(top: 7, bottom: 3));
   }
 
+  todayLabelWidget(todayLabel) {
+    if (widget.todayTextWidget != null) {
+      return widget.todayTextWidget(todayLabel);
+    }
+    return Container(child: Text(todayLabel, style: todayLabelStyle), padding: EdgeInsets.only(top: 7, bottom: 3));
+  }
+
   rightIconWidget() {
     if (!isOnEndingWeek) {
       return InkWell(
@@ -319,9 +336,12 @@ class CalendarStripState extends State<CalendarStrip>
       currentWeekRow.add(dateTileBuilder(
           rowStartingDate.add(Duration(days: eachDay)), selectedDate, index));
     }
+    // new
+    todayLabel = getTodayLabel();
+
     monthLabel = getMonthLabel();
     return Column(children: [
-      monthLabelWidget(monthLabel),
+      //monthLabelWidget(monthLabel),
       Container(
           padding: EdgeInsets.all(0),
           child: GestureDetector(
@@ -332,7 +352,9 @@ class CalendarStripState extends State<CalendarStrip>
               Expanded(child: Row(children: currentWeekRow)),
               rightIconWidget()
             ]),
-          ))
+          )),
+      // new
+      todayLabelWidget(todayLabel),
     ]);
   }
 

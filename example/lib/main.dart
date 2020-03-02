@@ -52,6 +52,21 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  _todayTextWidget(todayLabel) {
+    return Container(
+      child: Text(
+        todayLabel,
+        style: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: Colors.black87,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
+      padding: EdgeInsets.only(top: 8, bottom: 4),
+    );
+  }
+
   getMarkedIndicatorWidget() {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
