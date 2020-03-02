@@ -357,11 +357,14 @@ class CalendarStripState extends State<CalendarStrip>
       );
     }
 
+    bool isToday = DateUtils.isToday(date);
+    Color fontColor = isToday ? Colors.blue : Colors.black54;
+
     bool isSelectedDate = date.compareTo(selectedDate) == 0;
     var normalStyle = TextStyle(
         fontSize: 17,
         fontWeight: FontWeight.w800,
-        color: isDateOutOfRange ? Colors.black26 : Colors.black54);
+        color: isDateOutOfRange ? Colors.black26 : fontColor);
     return Expanded(
       child: SlideFadeTransition(
         delay: 30 + (30 * rowIndex),
@@ -382,7 +385,7 @@ class CalendarStripState extends State<CalendarStrip>
                   dayLabels[date.weekday - 1],
                   style: TextStyle(
                     fontSize: 14.5,
-                    color: !isSelectedDate ? Colors.black : Colors.white,
+                    color: !isSelectedDate ? fontColor : Colors.white,
                   ),
                 ),
                 Text(date.day.toString(),
