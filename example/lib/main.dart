@@ -1,3 +1,4 @@
+import 'package:calendar_strip/date-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_strip/calendar_strip.dart';
 
@@ -123,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
         startDate: startDate,
         endDate: endDate,
         onDateSelected: onSelect,
-        dateTileBuilder: dateTileBuilder,
+        //dateTileBuilder: dateTileBuilder,
         iconColor: Colors.black87,
         monthNameWidget: _monthNameWidget,
         markedDates: markedDates,
